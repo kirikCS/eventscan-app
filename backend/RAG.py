@@ -3,6 +3,9 @@ import numpy as np
 import faiss
 from sentence_transformers import SentenceTransformer
 from typing import List
+from config import config
+
+DS_PATH = config.DATASET_PATH
 
 class ITEventSemanticSearch:
     def __init__(self, csv_path: str):
@@ -60,5 +63,5 @@ class ITEventSemanticSearch:
         return results[:top_k]
 
 def run_RAG(QUERY):
-    answer = ITEventSemanticSearch("data/dataset-it-profession.csv").search(QUERY)
+    answer = ITEventSemanticSearch(DS_PATH).search(QUERY)
     return answer
