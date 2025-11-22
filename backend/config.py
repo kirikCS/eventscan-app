@@ -13,7 +13,7 @@ class Config:
     
     MODEL_PATH = str(BASE_DIR / 'gemma-3-1b-it-Q4_K_M.gguf')
     
-    TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', "8202702381:AAEOGoAw8UquWHxsuYR2kgRDTYC33YuD2Wg")
+    TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
     
     LOG_LEVEL = 'INFO'
     LOG_FILE = str(BASE_DIR / 'logs' / 'bot.log')
