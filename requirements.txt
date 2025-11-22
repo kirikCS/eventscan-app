@@ -1,23 +1,23 @@
-aiogram==3.8.0
-aiosqlite==0.20.0
+aiogram
+aiosqlite
 
-faiss-cpu==1.8.0.post1
-sentence-transformers==2.2.2
-transformers==4.30.0
+faiss-cpu
+sentence-transformers
+transformers
 
-llama-cpp-python==0.2.53
-gguf==0.5.0
+llama-cpp-python
+gguf
 
-beautifulsoup4==4.12.3
-tldextract==3.5.0
-requests==2.31.0
-urllib3==1.26.18
+beautifulsoup4
+tldextract
+requests
+urllib3
 
-pandas==2.0.3
-numpy==1.24.4
-nltk==3.8.1
+pandas
+numpy
+nltk
 
-python-dotenv==1.0.1
-aiohttp==3.8.5
-asyncio==3.4.3
-psutil==5.9.8
+python-dotenv
+aiohttp
+asyncio
+psutil
