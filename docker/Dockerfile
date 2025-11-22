@@ -1,12 +1,10 @@
-# Use Python 3.10 for better ML package compatibility
 FROM python:3.10-slim-bookworm
 
-# Set environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    POETRY_VERSION=1.8.3
+    PIP_INDEX_URL=https://pypi.org/simple/ \
+    PIP_TRUSTED_HOST=pypi.org
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
@@ -21,28 +19,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     sqlite3 \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
 WORKDIR /app
 
-# Copy dependency files
 COPY requirements.txt .
 
-# Install Python dependencies (with retries for network issues)
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip wheel setuptools && \
+    pip install --no-cache-dir --retry 5 --timeout 60 -r requirements.txt
 
-# Copy application code
 COPY backend/ backend/
-COPY data/ data/
+COPY data/dataset-it-profession.csv data/dataset-it-profession.csv
 COPY gemma-3-1b-it-Q4_K_M.gguf gemma-3-1b-it-Q4_K_M.gguf
 
-
-# Create necessary directories
 RUN mkdir -p /app/data /app/logs
 
-# Set permissions
 RUN chown -R nobody:nogroup /app
 USER nobody
 
-# Command to run the bot
+HEALTHCHECK --interval=30s --timeout=30s --start-period=10s --retries=3 \
+    CMD python -c "import sys; sys.exit(0)"
+
 CMD ["python", "backend/main.py"]
