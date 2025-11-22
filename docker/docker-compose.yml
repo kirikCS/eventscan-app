@@ -15,7 +15,7 @@ services:
       - ../logs:/app/logs:rw
     environment:
       - PYTHONPATH=/app
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_BOT_TOKEN=8202702381:AAEOGoAw8UquWHxsuYR2kgRDTYC33YuD2Wg
       - DATABASE_PATH=/app/data/company_users.db
       - DATASET_PATH=/app/data/dataset-it-profession.csv
       - MODEL_PATH=/app/models/gemma-3-1b-it-Q4_K_M.gguf
