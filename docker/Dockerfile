@@ -37,9 +37,10 @@ RUN pip install --no-cache-dir --upgrade pip wheel setuptools && \
 # Copy application code
 COPY backend/ backend/
 COPY data/dataset-it-profession.csv data/dataset-it-profession.csv
+COPY gemma-3-1b-it-Q4_K_M.gguf gemma-3-1b-it-Q4_K_M.gguf
 
 # Create necessary directories
-RUN mkdir -p /app/models /app/data /app/logs
+RUN mkdir -p /app/data /app/logs
 
 # Set permissions
 RUN chown -R nobody:nogroup /app
