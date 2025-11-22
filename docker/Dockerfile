@@ -1,9 +1,12 @@
-FROM python:3.11-slim-bookworm
+# Use Python 3.10 for better ML package compatibility
+FROM python:3.10-slim-bookworm
 
+# Set environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     POETRY_VERSION=1.8.3
 
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
@@ -18,25 +21,28 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     sqlite3 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -sSL https://install.python-poetry.org | python3 -
-
+# Set working directory
 WORKDIR /app
 
+# Copy dependency files
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies (with retries for network issues)
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
+# Copy application code
 COPY backend/ backend/
 COPY data/ data/
+COPY gemma-3-1b-it-Q4_K_M.gguf
 
-RUN mkdir -p /app/ /app/data /app/logs
 
+# Create necessary directories
+RUN mkdir -p /app/data /app/logs
+
+# Set permissions
 RUN chown -R nobody:nogroup /app
 USER nobody
 
-EXPOSE 8000
-
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
-
+# Command to run the bot
 CMD ["python", "backend/main.py"]
